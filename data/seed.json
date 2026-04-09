@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "role": "freshman_student",
+      "unit": "CAS",
+      "intent": "orientation",
+      "category": "academic",
+      "question": "When is orientation?",
+      "answer": "Orientation is on August 15th."
+    }
+  ]
+}

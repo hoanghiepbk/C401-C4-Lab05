@@ -2,6 +2,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
+from langchain_google_genai import ChatGoogleGenerativeAI
 from packages.rag.langgraph_flow import compile_chat_graph
 from packages.rag.retriever import SeedRetriever
 from packages.rag.seed_loader import load_seed
@@ -13,13 +14,14 @@ class RagChatService:
         self.seed_path = Path(seed_path)
         self.items = load_seed(self.seed_path)
         self.retriever = SeedRetriever(self.items)
-        self.graph = compile_chat_graph(self.retriever)
+        self.llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+        self.graph = compile_chat_graph(self.retriever, self.llm)
         self.sessions: dict[str, dict[str, Any]] = {}
 
     def reload(self) -> None:
         self.items = load_seed(self.seed_path)
         self.retriever = SeedRetriever(self.items)
-        self.graph = compile_chat_graph(self.retriever)
+        self.graph = compile_chat_graph(self.retriever, self.llm)
 
     def create_session(self, answers: dict[str, str]) -> str:
         session_id = str(uuid.uuid4())
