@@ -17,7 +17,11 @@ class RagChatService:
         self.seed_path = Path(seed_path)
         self.items = load_seed(self.seed_path)
         self.retriever = SeedRetriever(self.items)
-        self.llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+        import os
+        self.llm = ChatGoogleGenerativeAI(
+            model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+            max_output_tokens=150
+        )
         self.graph = compile_chat_graph(self.retriever, self.llm)
         self.sessions: dict[str, dict[str, Any]] = {}
 

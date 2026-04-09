@@ -29,6 +29,7 @@ class GraphState(TypedDict, total=False):
 
 
 def _detect_node(state: GraphState) -> GraphState:
+    print(f"\n--- Detecting question: {state['question'][:50]}... ---")
     q = state["question"].lower()
     if any(hint in q for hint in OUT_OF_SCOPE_HINTS):
         return {"status": "out_of_scope", "action": "escalate"}
@@ -57,7 +58,7 @@ def _build_generate_node(llm: ChatGoogleGenerativeAI):
         prompt = f"""You are a helpful VinUniversity Onboarding Assistant.
 Use the following context to answer the user's question. 
 If the context doesn't contain the answer, say you don't know.
-Keep the answer concise and friendly.
+Keep the answer extremely concise (max 2-3 sentences) and friendly.
 
 Context:
 {context}
@@ -68,6 +69,7 @@ Unit: {state.get('unit', 'N/A')}
 
 Answer:"""
         
+        print("\n--- Calling Gemini ---")
         response = llm.invoke(prompt)
         return {"answer": response.content}
     return _generate_node
