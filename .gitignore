@@ -160,3 +160,10 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+.vercel/
+.pytest_cache/
+.venv/
+.env
+.vercel
+.env*.local
