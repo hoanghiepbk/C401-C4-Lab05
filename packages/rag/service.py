@@ -1,6 +1,9 @@
 import uuid
 from pathlib import Path
 from typing import Any
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from packages.rag.langgraph_flow import compile_chat_graph
